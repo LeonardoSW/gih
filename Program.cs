@@ -1,3 +1,6 @@
+using Aula2.Infra.Repository;
+using Aula2.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<OrdersRepository>();
+builder.Services.AddTransient<OrderService>();
+
+//builder.Services.AddDbContext<IntegrationMercadoLivreContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("IntegrationMercadoLivre"));
+//});
+
 
 var app = builder.Build();
 

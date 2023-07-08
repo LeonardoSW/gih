@@ -8,15 +8,19 @@ namespace Aula2.Controllers
     public class OrderController : ControllerBase
     {
         private MercadoLivreApiService _mercadoLivreApiService;
+        private OrderService _orderService;
 
-        public OrderController()
+        public OrderController(OrderService orderService)
         {
             _mercadoLivreApiService = new MercadoLivreApiService();
+            _orderService = orderService;
         }
 
         [HttpGet("Pedidos")]
         public IActionResult ObterPedidos()
         {
+            _orderService.ListarPedidosSemResposta();
+
             var response = _mercadoLivreApiService.ObterPedidosRecentes();
 
             if (response == null)
@@ -25,5 +29,7 @@ namespace Aula2.Controllers
 
             return Ok(response);
         }
+
+
     }
 }

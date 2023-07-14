@@ -16,20 +16,24 @@ namespace Aula2.Controllers
             _orderService = orderService;
         }
 
-        [HttpGet("Pedidos")]
-        public IActionResult ObterPedidos()
+        [HttpPost("Pedidos/MercadoLivre")]
+        public IActionResult BaixarPedidosRecentes()
         {
-            _orderService.ListarPedidosSemResposta();
-
-            var response = _mercadoLivreApiService.ObterPedidosRecentes();
-
-            if (response == null)
-                return BadRequest("Não foi possível obter os pedidos recentes do Mercado Livre");
-
-
-            return Ok(response);
+            try
+            {
+                _mercadoLivreApiService.BaixarPedidosMercadoLivre();
+                return Ok("Pedidos baixados com sucesso!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
-
+        [HttpGet("Pedidos/BancoDados")]
+        public IActionResult ObterPedidosSemResposta()
+        {
+            return Ok();
+        }
     }
 }

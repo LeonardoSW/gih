@@ -2,20 +2,21 @@
 
 namespace Aula2.Models.ResponseModel
 {
-    public class UsuarioResponseModel
+    public class EnderecoPedidoResponseModel
     {
-        [JsonProperty("address")]
+        [JsonProperty("receiver_address")]
         public Endereco DadoEndereco { get; set; }
-
-        public string ObterUF()
-        {
-            return DadoEndereco.Estado?.Split('-').LastOrDefault();
-        }
     }
 
     public class Endereco
     {
         [JsonProperty("state")]
-        public string Estado { get; set; }
+        public Estado DadosEstado { get; set; }
+    }
+
+    public class Estado
+    {
+        [JsonProperty("id")]
+        public string Uf { get; set; }
     }
 }

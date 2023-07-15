@@ -19,7 +19,6 @@ namespace Aula2.Infra.Repository.Dapper
             return @$"insert into IntegrationMercadoLivre.dbo.orders 
                      (order_number, 
                       purchase_date, 
-                      download_date, 
                       price, 
                       first_message, 
                       ml_seller_id, 
@@ -29,13 +28,30 @@ namespace Aula2.Infra.Repository.Dapper
                      values 
                      ('{pedido.NumeroPedido}', 
                       '{pedido.DataCompra:yyyy-MM-dd HH:mm:ss}', 
-                      '{DateTime.Now:yyyy-MM-dd HH:mm:ss}', 
                       {pedido.Preco}, 
                       0,
                       '{pedido.DadoVendedor.Id}',
                       '{pedido.DadoComprador.Id}',
                       '{pedido.DadoComprador.Nome}',
                       '{uf}')";
+        }
+
+        public static string ObterPrazoPorPedido(long orderNumber)
+        {
+            return @$"select 
+                        ml_user_id,
+                        ml_seller_id,
+                        ml_user_name,
+                        shipping_min_days, 
+                        shipping_max_days 
+                      from orders as pedido
+                      join shipping_states as prazos on (pedido.ml_buyer_uf = prazos.uf)
+                      where order_number = {orderNumber}";
+        }
+
+        public static string MarcarPedidoRespondido(long orderNumber)
+        {
+            return $"update orders set first_message = 0 where order_number = {orderNumber}";
         }
     }
 }

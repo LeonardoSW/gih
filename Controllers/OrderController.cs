@@ -1,3 +1,4 @@
+using Aula2.Domain.Interfaces;
 using Aula2.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +8,12 @@ namespace Aula2.Controllers
     [Route("[controller]")]
     public class OrderController : ControllerBase
     {
-        private MercadoLivreApiService _mercadoLivreApiService;
+        private IMercadoLivreApiService _mercadoLivreApiService;
         private OrderService _orderService;
 
-        public OrderController(OrderService orderService)
+        public OrderController(OrderService orderService, IMercadoLivreApiService mercadoLivreApiService)
         {
-            _mercadoLivreApiService = new MercadoLivreApiService();
+            _mercadoLivreApiService = mercadoLivreApiService;
             _orderService = orderService;
         }
 
@@ -28,12 +29,6 @@ namespace Aula2.Controllers
             {
                 return BadRequest(e.Message);
             }
-        }
-
-        [HttpGet("Pedidos/BancoDados")]
-        public IActionResult ObterPedidosSemResposta()
-        {
-            return Ok();
         }
     }
 }

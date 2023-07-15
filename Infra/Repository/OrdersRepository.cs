@@ -35,5 +35,23 @@ namespace Aula2.Infra.Repository
 
             sqlConnection.Execute(queryToExecute);
         }
+
+        public async Task<ShipimmentStatesEntity> ObterPrazoAsync(long orderNumber)
+        {
+            var queryToExecute = DapperQueries.ObterPrazoPorPedido(orderNumber);
+            var sqlConnection = new SqlConnection(_connectionString);
+
+            var prazos = await sqlConnection.QueryFirstOrDefaultAsync<ShipimmentStatesEntity>(queryToExecute);
+
+            return prazos;
+        }
+
+        public async Task MarcarPedidoRespondidoAsync(long orderNumber)
+        {
+            var queryToExecute = DapperQueries.MarcarPedidoRespondido(orderNumber);
+            var sqlConnection = new SqlConnection(_connectionString);
+
+            await sqlConnection.ExecuteAsync(queryToExecute);
+        }
     }
 }
